@@ -1,28 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+      <!-- Biete Möglichkeit, bei jeder Seite einen Header hinzuzufügen -->
       @yield('header')
+          <!-- Appname im Ordner Conifg -> App festgelegt -->
           <title>{{config('app.name')}}</title>
                 <meta charset="utf-8">
+                <!-- wird für HTTP POST benötigt (siehe Laravel doc) -->
                 <meta name="csrf-token" content="{{ csrf_token() }}">
-                <!-- Latest compiled and minified CSS -->
-                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-                <!-- Latest compiled JavaScript -->
-                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+                <!-- Bootstrap -->
+                    <!-- Latest compiled and minified CSS -->
+                    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+                    <!-- Latest compiled JavaScript -->
+                    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
                 <!-- Glyphicons: Font-Awesome -->
                 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-
     </head>
 
     <body>
-      <!-- Navigation -->
-      <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+      <!-- Navigation Hier nicht benötigt-->
+      <!-- <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
         <div class="container">
           <a class="navbar-brand" href="/"></a>
-            <!-- <img class="pr-1 pd-1"src="img/logo.svg" alt="Logo" style="width:30px;">{{config('app.name')}}</a> -->
-          @yield('nav')
+            @yield('nav')
         </div>
-      </nav>
+      </nav> -->
+      <!-- alle Daten werden in einen Container gesteckt, damit sie mehr oder weniger
+    automatisch responsive werden -->
         <div class="container">
               @yield('content')
         </div>
