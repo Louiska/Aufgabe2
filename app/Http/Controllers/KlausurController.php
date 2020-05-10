@@ -6,15 +6,30 @@ use Illuminate\Http\Request;
 
 class KlausurController extends Controller
 {
-    // returnt einfach das standard-view
+    // returnt einfach das standard-view                <div class="input-group">
     public function index(){
           return view('index')->with(['possible' => -1]); //return das Ergebnis
     }
     public function submit(Request $request){ //nimmt die Daten vom View
-        $possible = KlausurController::checkIfPossible($request['eDate']); //ruft die jeweilige Funktion auf
-        return view('index')->with(['possible' =>$possible]); //return das Ergebnis
+        $date = $request['eDate']; //hole das Datum aus dem View
+        $isWeekend = null;
+        $possible = KlausurController::checkIfPossible($date); //ruft die jeweilige Funktion auf
+        if($request['ckeckWeekend']){
+          $isWeekend = KlausurController::checkIfWeekend($date);
+        } //wenn Checkbox gedrückt
+        $examName = $request['$examName'];
+        return view('index')->with(['possible' =>$possible,
+                                    'isWeekend' => $isWeekend,
+                                    'examName' => $examName]); //return das Ergebnis
     }
-
+    public function checkIfWeekend($date){
+      $date=strtotime($date);
+      $weekday = date('w', $date); //siehe Dokumentation php
+      if(0==$weekday or 6==$weekday){ //wenn der Tag ein Sonntag ist
+        return true; //dann ist Klausur nicht möglich
+      }
+      return false;
+    }
     public function checkIfPossible($date){
       $data = '[{
       "semester":"SoSe2019",
@@ -38,6 +53,9 @@ class KlausurController extends Controller
    }]'; // put the contents of the file into a variable
       $examNotInSemester = true;
       $date=strtotime($date);
+      if(0==date('w', $date)){ //wenn der Tag ein Sonntag ist
+        return false; //dann ist Klausur nicht möglich
+      }
       $json = json_decode($data); // decode the JSON feed
       foreach($json as $jsondata){
         $start= strtotime($jsondata->start);
