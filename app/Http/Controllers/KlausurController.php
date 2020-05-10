@@ -8,25 +8,11 @@ class KlausurController extends Controller
 {
     // returnt einfach das standard-view
     public function index(){
-      return view('index');
+          return view('index')->with(['possible' => -1]); //return das Ergebnis
     }
     public function submit(Request $request){ //nimmt die Daten vom View
-      // $possible = KlausurController::checkIfPossible($request['eDate']); //ruft die jeweilige Funktion auf
-        $date = strtotime("2019-03-16");
-          $start= strtotime("2019-04-15");
-          $end = strtotime("2019-07-19");
-        if(($date>$start) && ($date<$end)){
-          /* Hier wird irgendwie false getriggert, obwohl es true sein sollte.
-          wurde der Fehler hier gefunden, kann er unten ebenfalls korrigiert werden
-          und der Check, ob der Termin im Semester liegt, sollte erledigt sein.
-          // TODO: Check ob Sonntag, Check ob Wochenende
-          */
-          $possible="false";
-        }
-        else{
-          $possible = "true";
-        }
-        return view('index')->with(['possible'=>  $possible]); //return das Ergebnis
+        $possible = KlausurController::checkIfPossible($request['eDate']); //ruft die jeweilige Funktion auf
+        return view('index')->with(['possible' =>$possible]); //return das Ergebnis
     }
 
     public function checkIfPossible($date){
@@ -50,16 +36,16 @@ class KlausurController extends Controller
       "start":"2020-10-26",
       "end":"2021-02-12"
    }]'; // put the contents of the file into a variable
-      $examInSemester = "false";
+      $examNotInSemester = true;
       $date=strtotime($date);
       $json = json_decode($data); // decode the JSON feed
       foreach($json as $jsondata){
         $start= strtotime($jsondata->start);
         $end = strtotime($jsondata->end);
-        if(($date>$start) & ($date<$end)){
-          $examInSemester = true; //TODO: abbrechen der foreach, wenn Treffer?
+        if(($date>$start) and ($date<$end)){
+          $examNotInSemester = false; //TODO: abbrechen der foreach, wenn Treffer?
         }
-      return $examInSemester;
       }
+      return $examNotInSemester;
     }
 }

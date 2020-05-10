@@ -31,12 +31,8 @@
 
                 <button type="submit" class="btn btn-primary btn-lg">Absenden</button>
             </form>
-            <!-- Wenn ein Wert übergeben wurde über den Controller -->
-            @if(!empty($possible))
-            möglich
-            @else
-            nicht möglich
-            @endif
+            
+            möglich?: {{$possible}}
                 </div>
             </div>
         </div>
