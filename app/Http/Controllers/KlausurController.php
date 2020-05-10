@@ -16,6 +16,11 @@ class KlausurController extends Controller
           $start= strtotime("2019-04-15");
           $end = strtotime("2019-07-19");
         if(($date>$start) && ($date<$end)){
+          /* Hier wird irgendwie false getriggert, obwohl es true sein sollte.
+          wurde der Fehler hier gefunden, kann er unten ebenfalls korrigiert werden
+          und der Check, ob der Termin im Semester liegt, sollte erledigt sein.
+          // TODO: Check ob Sonntag, Check ob Wochenende
+          */
           $possible="false";
         }
         else{
@@ -52,7 +57,7 @@ class KlausurController extends Controller
         $start= strtotime($jsondata->start);
         $end = strtotime($jsondata->end);
         if(($date>$start) & ($date<$end)){
-          $examInSemester = true; //TODO: abbrechen der foreach?
+          $examInSemester = true; //TODO: abbrechen der foreach, wenn Treffer?
         }
       return $examInSemester;
       }

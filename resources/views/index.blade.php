@@ -6,26 +6,33 @@
         <!-- Styles -->
 @endsection
 @section('content')
-<div class="title m-b-md">
-            <div class="content">
-                    {{config('app.name')}}
-                </div>
+              <h1 class="text-center display-4">
+                  {{config('app.name')}} <!--Gespeichert unter config ->app -->
+              </h1>
                 <!-- Formular zum Übergeben von Daten über die Route (Submit) an den Controller.
               Eigentlich übergibt man Daten via POST an die Datenbank, aber da wir hier keine haben
             und die Daten auch nicht speichern, reicht GET-->
                 <form action="{{ url('/submit')}}" method="GET" class="form-horizontal">
                 <div class="input-group">
-                  <!-- Hier sollte eigentlich ein cooles Icon vor dem Input sein,
-                aber funktioniert nicht so ganz -->
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
-                  </div>
+                  <label for="eDate">Bitte geben Sie das gewünschte Datum in das Feld ein</label>
                   <input type="date"class="form-control" id="eDate" name="eDate" required autofocus><br>
                 </div>
-                <input type="submit" id="submit" class="btn btn-primary float-right">
+                <!--  Checkbox  -->
+                <div class="checkbox">
+                    <input type="checkbox" id="checkWeekend">
+                    <label for="checkWeekend">Wochenende Prüfen?</label>
+                </div>
+
+                <!--  Normales  einzeiliges  Eingabefeld  -->
+                <div class="form-group">
+                    <label for="input1">Bitte geben Sie den Namen der Klausur ein</label>
+                    <input  type="text" class="form-control" id="input1" placeholder="Klausurname">
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg">Absenden</button>
             </form>
             <!-- Wenn ein Wert übergeben wurde über den Controller -->
-            @if($possible)
+            @if(!empty($possible))
             möglich
             @else
             nicht möglich

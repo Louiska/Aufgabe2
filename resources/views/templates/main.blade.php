@@ -18,13 +18,6 @@
     </head>
 
     <body>
-      <!-- Navigation Hier nicht benötigt-->
-      <!-- <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
-        <div class="container">
-          <a class="navbar-brand" href="/"></a>
-            @yield('nav')
-        </div>
-      </nav> -->
       <!-- alle Daten werden in einen Container gesteckt, damit sie mehr oder weniger
     automatisch responsive werden -->
         <div class="container">
