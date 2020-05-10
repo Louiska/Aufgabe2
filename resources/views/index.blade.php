@@ -30,9 +30,27 @@
                 </div>
                 <button type="submit" class="btn btn-primary btn-lg">Absenden</button>
             </form>
-            möglich?: {{$possible}} <br>
-            Wochenende? {{$isWeekend}} <br>
+            @if(!empty($possible))
+            <?php if($possible == 1){ //  1= true
+              echo "Der Termin ist möglich!";
+            }
+            else{
+              echo "Leider ist der Termin nicht möglich!";
+            }
+             ?><br>
+            @endif
+            @if(!empty($isWeekend))
+            <?php if($isWeekend == 1){
+              echo "Der Termin ist an einem Wochenende!";
+            }
+            else{
+              echo "Der Termin ist nicht an einem Wochenende!";
+            }
+             ?><br>
+            @endif
+            @if(!empty($examName))
             Klausurname: {{$examName}}
+            @endif
                 </div>
             </div>
         </div>

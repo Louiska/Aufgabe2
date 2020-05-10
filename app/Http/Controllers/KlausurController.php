@@ -8,16 +8,17 @@ class KlausurController extends Controller
 {
     // returnt einfach das standard-view                <div class="input-group">
     public function index(){
-          return view('index')->with(['possible' => -1]); //return das Ergebnis
+          return view('index'); //return das Ergebnis
     }
     public function submit(Request $request){ //nimmt die Daten vom View
         $date = $request['eDate']; //hole das Datum aus dem View
+        $checkWeekend = $request['checkWeekend'];
         $isWeekend = null;
         $possible = KlausurController::checkIfPossible($date); //ruft die jeweilige Funktion auf
-        if($request['ckeckWeekend']){
+        if($checkWeekend == "on"){
           $isWeekend = KlausurController::checkIfWeekend($date);
         } //wenn Checkbox gedrückt
-        $examName = $request['$examName'];
+        $examName = $request['examName'];
         return view('index')->with(['possible' =>$possible,
                                     'isWeekend' => $isWeekend,
                                     'examName' => $examName]); //return das Ergebnis
@@ -28,7 +29,7 @@ class KlausurController extends Controller
       if(0==$weekday or 6==$weekday){ //wenn der Tag ein Sonntag ist
         return true; //dann ist Klausur nicht möglich
       }
-      return false;
+      return "notWeekend";
     }
     public function checkIfPossible($date){
       $data = '[{
@@ -54,14 +55,16 @@ class KlausurController extends Controller
       $examNotInSemester = true;
       $date=strtotime($date);
       if(0==date('w', $date)){ //wenn der Tag ein Sonntag ist
-        return false; //dann ist Klausur nicht möglich
+        return "notPossible"; //dann ist Klausur nicht möglich
       }
       $json = json_decode($data); // decode the JSON feed
       foreach($json as $jsondata){
         $start= strtotime($jsondata->start);
         $end = strtotime($jsondata->end);
         if(($date>$start) and ($date<$end)){
-          $examNotInSemester = false; //TODO: abbrechen der foreach, wenn Treffer?
+          $examNotInSemester = "notPossible"; //TODO: abbrechen der foreach, wenn Treffer?
+          //Hier "notPossible" statt false genommen, da PHP bei false null zurückgibt,
+          //was die php-abfrage erschwert
         }
       }
       return $examNotInSemester;
