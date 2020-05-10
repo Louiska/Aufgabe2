@@ -25,9 +25,10 @@
                 <input type="submit" id="submit" class="btn btn-primary float-right">
             </form>
             <!-- Wenn ein Wert übergeben wurde über den Controller -->
-            @if(!empty($possible))
-            <!-- dann gib ihn einfach aus -->
-              {{$possible}}
+            @if($possible)
+            möglich
+            @else
+            nicht möglich
             @endif
                 </div>
             </div>

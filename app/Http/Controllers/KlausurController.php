@@ -11,11 +11,50 @@ class KlausurController extends Controller
       return view('index');
     }
     public function submit(Request $request){ //nimmt die Daten vom View
-      $possible = KlausurController::checkIfPossible($request['eDate']); //ruft die jeweilige Funktion auf
-      return view('index')->with([ 'possible'=> $possible]); //return das Ergebnis
+      // $possible = KlausurController::checkIfPossible($request['eDate']); //ruft die jeweilige Funktion auf
+        $date = strtotime("2019-03-16");
+          $start= strtotime("2019-04-15");
+          $end = strtotime("2019-07-19");
+        if(($date>$start) && ($date<$end)){
+          $possible="false";
+        }
+        else{
+          $possible = "true";
+        }
+        return view('index')->with(['possible'=>  $possible]); //return das Ergebnis
     }
 
     public function checkIfPossible($date){
-      //Hier Json-Data durchlaufen und Abfragen etc
+      $data = '[{
+      "semester":"SoSe2019",
+      "start":"2019-04-15",
+      "end":"2019-07-19"
+   },
+   {
+      "semester":"WiSe2019/2020",
+      "start":"2019-10-21",
+      "end":"2020-02-07"
+   },
+   {
+      "semester":"SoSe2020",
+      "start":"2020-04-14",
+      "end":"2020-07-17"
+   },
+   {
+      "semester":"WiSe2020/2021",
+      "start":"2020-10-26",
+      "end":"2021-02-12"
+   }]'; // put the contents of the file into a variable
+      $examInSemester = "false";
+      $date=strtotime($date);
+      $json = json_decode($data); // decode the JSON feed
+      foreach($json as $jsondata){
+        $start= strtotime($jsondata->start);
+        $end = strtotime($jsondata->end);
+        if(($date>$start) & ($date<$end)){
+          $examInSemester = true; //TODO: abbrechen der foreach?
+        }
+      return $examInSemester;
+      }
     }
 }
